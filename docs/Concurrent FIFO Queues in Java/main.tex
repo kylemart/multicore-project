@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage{authblk}        % authors
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\bibliography{bibs}
+
+\begin{document}
+
+\title{Concurrent FIFO Queues in Java}
+\author{Jackson Boyd\thanks{jacksonboyd@knights.ucf.edu}}
+\author{Daquaris Chadwick\thanks{chadwickd@knights.ucf.edu}}
+\author{Kyle Marinez\thanks{martinez.l.kyle@knights.ucf.edu}}
+\affil{
+University of Central Florida \\
+\{jacksonboyd, chadwickd, martinez.l.kyle\}@knights.ucf.edu
+}
+
+\maketitle
+\begin{abstract}
+The goal of this paper is to provide a progress report detailing the work we have accomplished in our quest to implement a lock-free, k-FIFO and transactional queue in the Java programming language. For this milestone we set out to gain an in-depth understanding of the theory surrounding our deliverables, to establish the project’s set of tooling, enumerate and triage the set of necessary tasks, and to set the foundation for implementing our project. In that vein we have accomplished our goals, and feel confident that we are on track for successful completion.  
+\end{abstract}
+
+\section{Introduction}
+\subsection{Lock-Free k-FIFO Queues}
+A lock-free k-FIFO queue is a queue in which elements can be dequeued out of order up to k-1, or as a pool where the oldest element is dequeued within at most k-dequeue operations.1 The lock-free k-FIFO queues allow up to k enqueue and k dequeue operations to be done simultaneously. There are two algorithms stated in the research paper which implement bounded-size and unbounded size, lock-free k-FIFO queues with linearizable emptiness, and fullness, checks. The bounded-size algorithm supports a bounded-size array of elements that is dynamically split-up into segments of size k called k-segments and the unbounded-size algorithm supports an unbounded list of k-segments.   
+
+\subsection{Transactional Data Structures}
+In transactional data structures, a transaction refers to a block of instructions that is meant to appear as though it was executed atomically, on a single thread. Transactions can be used to ensure atomicity between operations. In the context of a FIFO queue, transactions will be used to ensure the atomicity of the data structure operations, such as enqueue, dequeue, etc. This is important seeing that any given combination of concurrent operations on an arbitrary FIFO queue may have unintended outcomes. For instance, if a dequeue operation is not done atomically and scheduled in-between other dequeue operations this action may cause other FIFO queue operations to breakdown and vice-versa. Transactions avoid the correctness problems of priority inversion, deadlock, and vulnerability to thread failure. They combine the simplicity of a coarse-grained lock with the high-contention performance of fine-grain locks. This makes transactions very diverse.
+Software transactional memory provides an alternative to using locks with a system for executing atomic sections of code. Software transactional memory interrupts concurrent transactions with overlapping read and write sets that have memory conflicts. Only one transaction is allowed to make the changes where the other will be set to abort and restart its transaction. This ability eliminates the complexity of fine-grain locking protocols. \cite{WEBSITE:1}
+
+\section{Our Approach}
+\subsection{Current Progress}
+At the present moment, each member of our project group has read and analyzed our assigned research paper, “Fast and Scalable, Lock-Free k-FIFO Queues”. Furthermore, we have thoroughly investigated the topic of transactional memory, both as a general concept and as it pertains to our project. The collective’s foray into the aforementioned subjects has been rather fruitful, allowing us to thoroughly prepare for, and make leadway into, the implementation stage of our project. For instance, we have already established all of the tooling and dependencies our project shall rely upon. 
+In order to manage our project, we are using Git and Github for version control and hosting our project respectively. Our project’s FIFO queue implementations will be written in the Java programming language, and our project’s dependencies and build automation are managed with Gradle. In order to implement our transactional FIFO queue we will be using the Multiverse library, which is an openly available Software Transactional Memory implementation (STM) for the Java Virtual Machine (JVM). For benchmarking, we will be using the Java Microbenchmarking Harness (JMH), which is an openly available benchmarking framework for Java.
+Rest assured, many of these tools have already been put to work. Our project’s repository is already being managed with Git and being hosted on Github; our codebase has been integrated with Gradle; and the implementation of a bounded and unbounded sequential FIFO queue has already been completed. (This code had been included with the submission of this report draft.) The unbounded sequential queue was built by composing a linked list, whereas the bounded queue composes our unbounded queue implementation. As a group, we concluded that transforming sequential queue containers into transactional ones using the Multiverse library would be somewhat trivial. Therefore, we made the task of coding these sequential queues a priority. In short, we are rather pleased with our current progress.
+\subsection{Next Steps}
+Our immediate next course of action will be to come together and discuss our individual understandings of the k-FIFO queues, as well as Software Transactional Memory. Upon completion of this initial task, we will begin to investigate pre-existing implementations, and further explore the Multiverse STM library. With a solid understanding of our assigned data structures, we intend to effectively execute the implementation, testing and benchmarking phases of our project.
+
+\printbibliography
+\end{document}
