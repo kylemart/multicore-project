@@ -1,1 +1,1 @@
-#Concurrent FIFO Queues in Java
+# Lock-free k-FIFO Queues + Transactional FIFO Queues
