@@ -4,7 +4,7 @@ import kylemart.multicore.project.Queue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
@@ -16,40 +16,40 @@ public class BoundedKQueue<E> implements Queue<E> {
 
     private final static Random random = new Random();
 
-    private final AtomicInteger head = new AtomicInteger(0);
-    private final AtomicInteger tail = new AtomicInteger(0);
-    private final AtomicReferenceArray<KQueueItem<E>> slots;
+    private final AtomicReference<AtomicValue<Integer>> head = new AtomicReference<>(new AtomicValue<>(0, 0));
+    private final AtomicReference<AtomicValue<Integer>> tail = new AtomicReference<>(new AtomicValue<>(0, 0));
+    private final AtomicReferenceArray<AtomicValue<E>> slots;
     private final int k;
 
     public BoundedKQueue(int k, int numSegments) {
         this.k = k;
         slots = new AtomicReferenceArray<>(k * numSegments);
         for (int index = 0; index < slots.length(); ++index) {
-            slots.set(index, new KQueueItem<>(null, 0));
+            slots.set(index, new AtomicValue<>(null, 0));
         }
     }
 
     @Override
     public boolean enqueue(@NotNull E item) {
         while (true) {
-            int oldTail = tail.get();
-            int oldHead = head.get();
+            AtomicValue<Integer> oldTail = tail.get();
+            AtomicValue<Integer> oldHead = head.get();
 
             int[] indexOut = new int[1];
-            KQueueItem<E> oldItem = tryFind(SlotType.EMPTY, oldTail, k, indexOut);
+            AtomicValue<E> oldItem = tryFindEmptySlot(oldTail.value, k, indexOut);
             int index = indexOut[0];
 
             if (oldTail == tail.get()) {
                 if (oldItem.value == null) {
-                    KQueueItem<E> newItem = new KQueueItem<>(item, oldItem.version + 1);
-                    if (slots.compareAndSet(oldTail + index, oldItem, newItem)) {
+                    AtomicValue<E> newItem = new AtomicValue<>(item, oldItem.version + 1);
+                    if (slots.compareAndSet(oldTail.value + index, oldItem, newItem)) {
                         if (isCommitted(oldTail, newItem, index)) {
                             return true;
                         }
                     }
                 } else {
-                    if (oldTail + k == oldHead) {
-                        if (isSegmentNotEmpty(oldHead, k)) {
+                    if (oldTail.value + k == oldHead.value) {
+                        if (isSegmentNotEmpty(oldHead.value, k)) {
                             if (oldHead == head.get()) {
                                 return false;
                             }
@@ -66,20 +66,20 @@ public class BoundedKQueue<E> implements Queue<E> {
     @Override
     public E dequeue() {
         while (true) {
-            int oldTail = tail.get();
-            int oldHead = head.get();
+            AtomicValue<Integer> oldTail = tail.get();
+            AtomicValue<Integer> oldHead = head.get();
 
             int[] indexOut = new int[1];
-            KQueueItem<E> oldItem = tryFind(SlotType.NON_EMPTY, oldTail, k, indexOut);
+            AtomicValue<E> oldItem = tryFindItem(oldHead.value, k, indexOut);
             int index = indexOut[0];
 
             if (oldHead == head.get()) {
                 if (oldItem.value != null) {
-                    if (oldHead == oldTail) {
+                    if (oldHead.value.equals(oldTail.value)) {
                         advanceTail(oldTail, k);
                     }
-                    KQueueItem<E> emptyItem = new KQueueItem<>(null, oldItem.version + 1);
-                    if (slots.compareAndSet(oldHead + index, oldItem, emptyItem)) {
+                    AtomicValue<E> emptyItem = new AtomicValue<>(null, oldItem.version + 1);
+                    if (slots.compareAndSet(oldHead.value + index, oldItem, emptyItem)) {
                         return oldItem.value;
                     }
                 } else {
@@ -94,59 +94,122 @@ public class BoundedKQueue<E> implements Queue<E> {
 
     private boolean isSegmentNotEmpty(int from, int to) {
         final int start = from + random.nextInt(to);
+        final int limit = to - from;
 
-        int index = start;
-        do {
-            if (slots.get(index) != null) {
+        for (int offset = 0; offset < limit; ++offset) {
+            int index = (start + offset) % to + from;
+            AtomicValue<E> item = slots.get(index);
+            if (item.value != null) {
                 return true;
             }
-            index = (index + 1) % to + from;
-        } while (index != start);
+        }
 
         return false;
     }
 
-    private KQueueItem<E> tryFind(SlotType slotType, int from, int to, int[] indexOut) {
+    private AtomicValue<E> tryFindEmptySlot(int from, int to, int[] indexOut) {
         final int start = from + random.nextInt(to);
+        final int limit = to - from;
 
-        int index = start;
-        do {
-            KQueueItem<E> item = slots.get(index);
-            if (slotType == SlotType.EMPTY && item.value == null) {
+        for (int offset = 0; offset < limit; ++offset) {
+            int index = (start + offset) % to + from;
+            AtomicValue<E> item = slots.get(index);
+            if (item.value == null) {
                 indexOut[0] = index;
                 return item;
             }
-            index = (index + 1) % to + from;
-        } while (index != start);
+        }
 
         return slots.get(start);
     }
 
-    private boolean isCommitted(int oldTail, KQueueItem<E> item, int index) {
-        // TODO - Need to implement
-        return false;
+    private AtomicValue<E> tryFindItem(int from, int to, int[] indexOut) {
+        for (int index = from; index < to; ++index) {
+            AtomicValue<E> item = slots.get(index);
+            if (item.value != null) {
+                indexOut[0] = index;
+                return item;
+            }
+        }
+
+        return slots.get(from);
     }
 
-    private void advanceTail(int oldTail, int by) {
-        tail.compareAndExchange(oldTail, (oldTail + by) % slots.length());
+    private boolean isCommitted(AtomicValue<Integer> oldTail, AtomicValue<E> newItem, int index) {
+        if (slots.get(oldTail.value + index) != newItem) {
+            return true;
+        }
+
+        AtomicValue<Integer> currentHead = head.get();
+        AtomicValue<Integer> currentTail = tail.get();
+
+        AtomicValue<E> emptyItem = new AtomicValue<>(null, newItem.version + 1);
+
+        if (currentHead.value < oldTail.value && oldTail.value <= currentTail.value) {
+            return true;
+        } else if (oldTail.value < currentTail.value || currentHead.value < oldTail.value) {
+            return !slots.compareAndSet(oldTail.value + index, newItem, emptyItem);
+        }
+
+        AtomicValue<Integer> newHead = new AtomicValue<>(currentHead.value, currentHead.version + 1);
+        return (head.compareAndSet(currentHead, newHead) || !slots.compareAndSet(oldTail.value, newItem, emptyItem));
     }
 
-    private void advanceHead(int oldHead, int by) {
-        head.compareAndExchange(oldHead, (oldHead + by) % slots.length());
+    private void advanceTail(AtomicValue<Integer> oldTail, int by) {
+        int advancedValue = (oldTail.value + by) % slots.length();
+        AtomicValue<Integer> newTail = new AtomicValue<>(advancedValue, oldTail.version + 1);
+        tail.compareAndSet(oldTail, newTail);
     }
 
-    private static class KQueueItem<E> {
+    private void advanceHead(AtomicValue<Integer> oldHead, int by) {
+        int advancedValue = (oldHead.value + by) % slots.length();
+        AtomicValue<Integer> newHead = new AtomicValue<>(advancedValue, oldHead.version + 1);
+        head.compareAndSet(oldHead, newHead);
+    }
 
-        final E value;
+    private static class AtomicValue<V> {
+
+        final V value;
         final int version;
 
-        KQueueItem(E value, int version) {
+        AtomicValue(V value, int version) {
             this.value = value;
             this.version = version;
         }
     }
 
-    private enum SlotType {
-        NON_EMPTY, EMPTY
+    public static void main(String[] args) throws InterruptedException {
+        BoundedKQueue<Integer> queue = new BoundedKQueue<>(1, 10);
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 100; ++i) {
+                queue.enqueue(1);
+                System.out.println("t1: added 1");
+                System.out.println("t1: got " + queue.dequeue());
+            }
+        });
+        t1.start();
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 100; ++i) {
+                queue.enqueue(2);
+                System.out.println("t2: added 2");
+                System.out.println("t2: got " + queue.dequeue());
+            }
+        });
+        t2.start();
+
+        Thread t3 = new Thread(() -> {
+            for (int i = 0; i < 100; ++i) {
+                queue.enqueue(3);
+                System.out.println("t3: added 3");
+                System.out.println("t3: got " + queue.dequeue());
+            }
+        });
+        t3.start();
+
+        t1.join();
+        t2.join();
+        t3.join();
     }
 }
