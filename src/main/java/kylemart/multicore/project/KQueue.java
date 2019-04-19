@@ -52,8 +52,6 @@ public class KQueue<E> implements ConcurrentQueue<E> {
 
     @Override
     public boolean enqueue(@NotNull E element) {
-        int emptySlotIndex;
-
         while (true) {
             int oldTailIndex = tailIndex.get();
             int oldHeadIndex = headIndex.get();
@@ -64,7 +62,8 @@ public class KQueue<E> implements ConcurrentQueue<E> {
                 continue;
             }
 
-            if ((emptySlotIndex = oldTailSegment.getEmptySlotIndex()) >= 0) {
+            int emptySlotIndex = oldTailSegment.getEmptySlotIndex();
+            if (emptySlotIndex >= 0) {
                 if (oldTailSegment.slots.compareAndSet(emptySlotIndex, null, element)) {
                     if (committed(oldTailIndex, oldTailSegment, emptySlotIndex, element)) {
                         return true;
