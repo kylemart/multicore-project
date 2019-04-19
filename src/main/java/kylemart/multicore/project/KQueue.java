@@ -57,13 +57,12 @@ public class KQueue<E> implements ConcurrentQueue<E> {
         while (true) {
             int oldTailIndex = tailIndex.get();
             int oldHeadIndex = headIndex.get();
+            Segment<E> oldTailSegment = segments[oldTailIndex];
+            Segment<E> oldHeadSegment = segments[oldHeadIndex];
 
             if (oldTailIndex != tailIndex.get()) {
                 continue;
             }
-
-            Segment<E> oldTailSegment = segments[oldTailIndex];
-            Segment<E> oldHeadSegment = segments[oldHeadIndex];
 
             if ((emptySlotIndex = oldTailSegment.getEmptySlotIndex()) >= 0) {
                 if (oldTailSegment.slots.compareAndSet(emptySlotIndex, null, element)) {
@@ -93,12 +92,11 @@ public class KQueue<E> implements ConcurrentQueue<E> {
         while (true) {
             int oldTailIndex = tailIndex.get();
             int oldHeadIndex = headIndex.get();
+            Segment<E> oldHeadSegment = segments[oldHeadIndex];
 
             if (oldHeadIndex != headIndex.get()) {
                 continue;
             }
-
-            Segment<E> oldHeadSegment = segments[oldHeadIndex];
 
             if (oldHeadSegment.findFirstElement(found)) {
                 if (oldTailIndex == oldHeadIndex) {
