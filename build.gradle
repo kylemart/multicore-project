@@ -15,4 +15,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'org.jetbrains:annotations:16.0.2'
+    compile group: 'org.multiverse', name: 'multiverse-core', version: '0.7.0'
+
 }
