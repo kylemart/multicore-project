@@ -86,15 +86,15 @@
         <counts>
           <entry key="dummy" value="37" />
           <entry key="gradle" value="4" />
-          <entry key="java" value="24002" />
-          <entry key="txt" value="340" />
+          <entry key="java" value="24347" />
+          <entry key="txt" value="443" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="4" />
-          <entry key="JAVA" value="24002" />
-          <entry key="PLAIN_TEXT" value="377" />
+          <entry key="JAVA" value="24347" />
+          <entry key="PLAIN_TEXT" value="480" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -129,10 +129,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+            <state relative-caret-position="451">
+              <caret line="226" column="22" lean-forward="true" selection-start-line="226" selection-start-column="22" selection-end-line="226" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#6867#6868#0" expanded="true" />
+                <element signature="e#6918#6919#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -676,7 +678,7 @@
       <workItem from="1555256051244" duration="36000" />
       <workItem from="1555256097150" duration="5676000" />
       <workItem from="1555281146278" duration="24658000" />
-      <workItem from="1555614856027" duration="26954000" />
+      <workItem from="1555614856027" duration="27434000" />
     </task>
     <task id="LOCAL-00001" summary="Updated build.gradle">
       <created>1555256308891</created>
@@ -706,11 +708,25 @@
       <option name="project" value="LOCAL" />
       <updated>1555636421278</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refactored KQueue">
+      <created>1555643642622</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1555643642622</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changed type parameter name for FindResult">
+      <created>1555643738132</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1555643738132</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66282000" />
+    <option name="totallyTimeSpent" value="66762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1394" height="1417" extended-state="0" />
@@ -781,7 +797,9 @@
     <MESSAGE value="[WIP] Finished almost everything; need to implement isCommitted()" />
     <MESSAGE value="[WIP] Things are working somewhat; need to fix out-of-order bug" />
     <MESSAGE value="KQueue is now in a working state." />
-    <option name="LAST_COMMIT_MESSAGE" value="KQueue is now in a working state." />
+    <MESSAGE value="Refactored KQueue" />
+    <MESSAGE value="Changed type parameter name for FindResult" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed type parameter name for FindResult" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/jmh/java/kylemart/multicore/project/BaseTest.java" />
@@ -849,10 +867,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+        <state relative-caret-position="451">
+          <caret line="226" column="22" lean-forward="true" selection-start-line="226" selection-start-column="22" selection-end-line="226" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6867#6868#0" expanded="true" />
+            <element signature="e#6918#6919#0" expanded="true" />
           </folding>
         </state>
       </provider>

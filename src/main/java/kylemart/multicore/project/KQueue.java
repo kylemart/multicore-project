@@ -143,7 +143,7 @@ public class KQueue<E> implements ConcurrentQueue<E> {
         } else if (!isInQueue) {
             return !oldTailSegment.slots.compareAndSet(slotIndex, expectedElement, null);
         } else {
-            if (headIndex.compareAndSet(currentHeadIndex, currentHeadIndex)) {
+            if (currentHeadIndex == headIndex.get()) {
                 return true;
             }
             return !oldTailSegment.slots.compareAndSet(slotIndex, expectedElement, null);
@@ -185,6 +185,9 @@ public class KQueue<E> implements ConcurrentQueue<E> {
      */
     private static class Segment<E> {
 
+        /**
+         * Used in methods that require a random slot index to begin traversing from.
+         */
         static final ThreadLocal<Random> randomReference = new ThreadLocal<>() {
             @Override
             protected synchronized Random initialValue() {
@@ -210,6 +213,7 @@ public class KQueue<E> implements ConcurrentQueue<E> {
          * @return the index of an empty slot; otherwise -1 if no available slots are found.
          */
         int getEmptySlotIndex() {
+            // Random used here as an optimization technique.
             Random random = randomReference.get();
             int start = random.nextInt(slots.length());
 
@@ -243,6 +247,7 @@ public class KQueue<E> implements ConcurrentQueue<E> {
          * @return true if the segment contains at least one element; false otherwise
          */
         boolean isOccupied() {
+            // Random used here as an optimization technique.
             Random random = randomReference.get();
             int start = random.nextInt(slots.length());
 
