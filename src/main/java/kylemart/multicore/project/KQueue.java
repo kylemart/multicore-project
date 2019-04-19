@@ -259,14 +259,14 @@ public class KQueue<E> implements ConcurrentQueue<E> {
         /**
          * Used for storing the result of a find operation.
          *
-         * @param <V> the type of the element stored within this result
+         * @param <E> the type of the element stored within this result
          */
-        private static class FindResult<V> {
+        private static class FindResult<E> {
 
             /**
              * Reference to the element found.
              */
-            V element;
+            E element;
 
             /**
              * The index where the element was found.
@@ -279,7 +279,7 @@ public class KQueue<E> implements ConcurrentQueue<E> {
              * @param element the element
              * @param index   the index where the element was found
              */
-            void set(V element, int index) {
+            void set(E element, int index) {
                 this.element = element;
                 this.index = index;
             }
