@@ -25,89 +25,104 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class STMQueue<I> implements ConcurrentQueue<I> {
+class StmBoundedQueue<T> implements ConcurrentQueue<T> {
+    private final TxnInteger availableItems, availableSpaces;
+    private final TxnRef<T>[] items;
+    private final TxnInteger head, tail;
 
-    private NaiveTxnLinkedList<I> transactionalLinkedList;
-    private Stm stm;
+    public StmBoundedQueue(int capacity) {
+        this.availableItems = newTxnInteger(0);
+        this.availableSpaces = newTxnInteger(capacity);
+        this.items = makeArray(capacity);
+        for (int i=0; i<capacity; i++)
+            this.items[i] = StmUtils.<T>newTxnRef();
+        this.head = newTxnInteger(0);
+        this.tail = newTxnInteger(0);
+    }
 
-    public STMQueue(int capacity)
-    {
-        this.stm = getGlobalStmInstance();
-        clearThreadLocalTxn();
-        this.transactionalLinkedList = new NaiveTxnLinkedList<I>(this.stm, capacity);
+    @SuppressWarnings("unchecked")
+    private static <T> TxnRef<T>[] makeArray(int capacity) {
+        // Java's @$#@?!! type system requires this unsafe cast
+        return (TxnRef<T>[])new TxnRef[capacity];
+    }
+
+    public boolean isEmpty() {
+        return atomic(() -> availableItems.get() == 0);
+    }
+
+    public boolean isFull() {
+        return atomic(() -> availableSpaces.get() == 0);
+    }
+
+    public void put(T item) {     // at tail
+        atomic(() -> {
+            if (availableSpaces.get() == 0)
+                retry();
+            else {
+                availableSpaces.decrement();
+                items[tail.get()].set(item);
+                tail.set((tail.get() + 1) % items.length);
+                availableItems.increment();
+            }
+        });
     }
 
     @Override
-    public boolean enqueue(I value) {
-        return StmUtils.atomic(new TxnBooleanCallable() {
-            @Override
-            public boolean call(Txn txn) throws Exception {
-                try
-                {
-                    transactionalLinkedList.addLast(txn, value);
-                    return true;
-
-                }catch(IllegalStateException expected) {
-                    return false;
-                }
+    public boolean enqueue(T item) {
+        return atomic(() -> {
+            if (availableSpaces.get() == 0)
+            {
+                retry();
+                return true;
+            }
+            else {
+                availableSpaces.decrement();
+                items[tail.get()].set(item);
+                tail.set((tail.get() + 1) % items.length);
+                availableItems.increment();
+                return true;
             }
         });
     }
 
     @Override
-    public I dequeue() {
-
-        return StmUtils.atomic(new TxnCallable<I>() {
-            @Override
-            public I call(Txn txn) throws Exception{
-                try{
-                    return transactionalLinkedList.removeFirst(txn);
-                } catch (NoSuchElementException exception) {
-                    return null;
-                }
+    public T dequeue() {
+        return atomic(() -> {
+            if (availableItems.get() == 0) {
+                return null;    // unreachable
+            } else {
+                availableItems.decrement();
+                T item = items[head.get()].get();
+                items[head.get()].set(null);
+                head.set((head.get() + 1) % items.length);
+                availableSpaces.increment();
+                return item;
             }
         });
     }
 
-    public I nothing(I not) {
-        return not;
-    }
+    public static void main(String[] args) throws InterruptedException {
+        for(int i = 0; i < 100; i++)
+        {
+            StmBoundedQueue<Integer> queue = new StmBoundedQueue<>(100);
 
-    public static void main(String[] args) throws InterruptedException
-    {
-        STMQueue<Integer> stm = new STMQueue<>(100);
+            Thread t1 = new Thread(() -> {
+                queue.enqueue(1);
 
-        Thread t1 = new Thread(() -> {
-            for(int i = 0; i < 1; i++) {
-                stm.enqueue(i);
-            }
-            System.out.println("Enqueue done");
-        });
+            });
 
-        Thread t2 = new Thread(() -> {
-            for(int i = 0; i < 50; i++) {
-                stm.dequeue();
-            }
-            System.out.println("Dequeue done");
-        });
+            Thread t2 = new Thread(() -> {
+                queue.dequeue();
+            });
 
-        Thread t3 = new Thread(() -> {
-            for(int i = 0; i < 50; i++) {
-                stm.dequeue();
-            }
-            System.out.println("De done");
-        });
+            t1.start();
+            t2.start();
 
-        t1.start();
-        t2.start();
-        t3.start();
+            t1.join();
+            t2.join();
 
-        t1.join();
-        t2.join();
-        t3.join();
-
-        for(int i = 0; i < 100; i++) {
-            System.out.println(stm.dequeue() + " -");
+            System.out.println(queue.dequeue());
+            System.out.println("---------------");
         }
     }
 }
