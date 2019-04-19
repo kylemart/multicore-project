@@ -264,7 +264,7 @@ public class KQueue<E> implements ConcurrentQueue<E> {
          *
          * @param <E> the type of the element stored within this result
          */
-        private static class FindResult<E> {
+        static class FindResult<E> {
 
             /**
              * Reference to the element found.

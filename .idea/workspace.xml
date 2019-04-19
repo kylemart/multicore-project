@@ -86,15 +86,15 @@
         <counts>
           <entry key="dummy" value="37" />
           <entry key="gradle" value="4" />
-          <entry key="java" value="24347" />
-          <entry key="txt" value="443" />
+          <entry key="java" value="24356" />
+          <entry key="txt" value="554" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="4" />
-          <entry key="JAVA" value="24347" />
-          <entry key="PLAIN_TEXT" value="480" />
+          <entry key="JAVA" value="24356" />
+          <entry key="PLAIN_TEXT" value="591" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -129,8 +129,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="226" column="22" lean-forward="true" selection-start-line="226" selection-start-column="22" selection-end-line="226" selection-end-column="22" />
+            <state relative-caret-position="813">
+              <caret line="266" column="8" selection-start-line="266" selection-start-column="8" selection-end-line="266" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6867#6868#0" expanded="true" />
@@ -626,44 +626,6 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.BoundedKQueue">
-    <configuration name="KQueue" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="kylemart.multicore.project.KQueue" />
-      <module name="multicore-project_main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="kylemart.multicore.project.KQueue2" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KQueue2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="kylemart.multicore.project.KQueue2" />
-      <module name="multicore-project_main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="kylemart.multicore.project.KQueue2" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.BoundedKQueue" />
-      <item itemvalue="Application.KQueue2" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.BoundedKQueue" />
-        <item itemvalue="Application.KQueue2" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -678,7 +640,7 @@
       <workItem from="1555256051244" duration="36000" />
       <workItem from="1555256097150" duration="5676000" />
       <workItem from="1555281146278" duration="24658000" />
-      <workItem from="1555614856027" duration="27434000" />
+      <workItem from="1555614856027" duration="27867000" />
     </task>
     <task id="LOCAL-00001" summary="Updated build.gradle">
       <created>1555256308891</created>
@@ -722,11 +684,25 @@
       <option name="project" value="LOCAL" />
       <updated>1555643738132</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Refactored KQueue and added some more documentation">
+      <created>1555644111081</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1555644111081</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Lightly refactored KQueue; moved around a couple of lines.">
+      <created>1555644449998</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1555644449998</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66762000" />
+    <option name="totallyTimeSpent" value="67195000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1394" height="1417" extended-state="0" />
@@ -799,7 +775,9 @@
     <MESSAGE value="KQueue is now in a working state." />
     <MESSAGE value="Refactored KQueue" />
     <MESSAGE value="Changed type parameter name for FindResult" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed type parameter name for FindResult" />
+    <MESSAGE value="Refactored KQueue and added some more documentation" />
+    <MESSAGE value="Lightly refactored KQueue; moved around a couple of lines." />
+    <option name="LAST_COMMIT_MESSAGE" value="Lightly refactored KQueue; moved around a couple of lines." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/jmh/java/kylemart/multicore/project/BaseTest.java" />
@@ -867,8 +845,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="226" column="22" lean-forward="true" selection-start-line="226" selection-start-column="22" selection-end-line="226" selection-end-column="22" />
+        <state relative-caret-position="813">
+          <caret line="266" column="8" selection-start-line="266" selection-start-column="8" selection-end-line="266" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6867#6868#0" expanded="true" />
