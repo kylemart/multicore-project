@@ -12,6 +12,17 @@ import static org.multiverse.api.TxnThreadLocal.clearThreadLocalTxn;
 
 import java.util.NoSuchElementException;
 
+/**
+ * A bounded, lock-free transitional memory queue
+ *
+ * <p>
+ * A bounded lock-free software transactional memory queue is a lock-free queue
+ * transactional memory using the Multiverse Software Transactional Memory library.
+ * </p>
+ *
+ * @param <I> The type of elements held in this queue
+ * @author Daquaris Chadwick
+ */
 class STMQueue<I> implements ConcurrentQueue<I> {
 
     /**
@@ -26,10 +37,10 @@ class STMQueue<I> implements ConcurrentQueue<I> {
 
     /**
      * Instantiates a new STMQueue holding at most capacity
+     *
      * @param capacity The maximum members the queue can hold
      */
-    public STMQueue(int capacity)
-    {
+    public STMQueue(int capacity) {
         this.stm = getGlobalStmInstance();
         clearThreadLocalTxn();
         this.transactionalLinkedList = new NaiveTxnLinkedList<I>(this.stm, capacity);
@@ -40,12 +51,11 @@ class STMQueue<I> implements ConcurrentQueue<I> {
         return StmUtils.atomic(new TxnBooleanCallable() {
             @Override
             public boolean call(Txn txn) throws Exception {
-                try
-                {
+                try {
                     transactionalLinkedList.addLast(txn, value);
                     return true;
 
-                }catch(IllegalStateException expected) {
+                } catch (IllegalStateException expected) {
                     return false;
                 }
             }
@@ -56,8 +66,8 @@ class STMQueue<I> implements ConcurrentQueue<I> {
     public I dequeue() {
         return StmUtils.atomic(new TxnCallable<I>() {
             @Override
-            public I call(Txn txn) throws Exception{
-                try{
+            public I call(Txn txn) throws Exception {
+                try {
                     return transactionalLinkedList.removeFirst(txn);
                 } catch (NoSuchElementException exception) {
                     return null;
