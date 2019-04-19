@@ -5,7 +5,7 @@ package kylemart.multicore.project;
  *
  * @param <T> the type of element the container will hold
  */
-public interface Queue<T> {
+public interface ConcurrentQueue<T> {
 
     /**
      * Enqueues the {@code value} to the end of the queue.
