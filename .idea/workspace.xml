@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3fbcc2d-ab2c-4504-b12c-0fb7a1b489c2" name="Default Changelist" comment="[WIP] Finished almost everything; need to implement isCommitted()">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java" afterDir="false" />
+    <list default="true" id="d3fbcc2d-ab2c-4504-b12c-0fb7a1b489c2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/ConcurrentQueue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/concurrent/BoundedKQueue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/sequential/SequentialBoundedQueue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/sequential/SequentialQueue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/sequential/SequentialUnboundedQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -72,7 +67,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gradle" value="3" />
-          <entry key="java" value="6" />
+          <entry key="java" value="8" />
           <entry key="name" value="3" />
           <entry key="tex" value="3" />
           <entry key="xml" value="7" />
@@ -81,7 +76,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Groovy" value="3" />
-          <entry key="JAVA" value="6" />
+          <entry key="JAVA" value="8" />
           <entry key="LaTeX source file" value="2" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="XML" value="7" />
@@ -91,15 +86,15 @@
         <counts>
           <entry key="dummy" value="37" />
           <entry key="gradle" value="4" />
-          <entry key="java" value="18840" />
-          <entry key="txt" value="297" />
+          <entry key="java" value="24002" />
+          <entry key="txt" value="340" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="4" />
-          <entry key="JAVA" value="18840" />
-          <entry key="PLAIN_TEXT" value="334" />
+          <entry key="JAVA" value="24002" />
+          <entry key="PLAIN_TEXT" value="377" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -134,15 +129,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="151">
+              <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#558#588#0" expanded="true" />
-                <element signature="e#4459#4460#0" expanded="true" />
-                <element signature="e#4518#4519#0" expanded="true" />
-                <element signature="e#3603#3604#0" expanded="true" />
-                <element signature="e#3664#3665#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -557,10 +547,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="60" />
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="2560" />
+    <option name="width" value="1394" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -635,13 +624,13 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.KQueue2">
+  <component name="RunManager" selected="Application.BoundedKQueue">
     <configuration name="KQueue" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="kylemart.multicore.project.KQueue" />
       <module name="multicore-project_main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="kylemart.multicore.project.*" />
+          <option name="PATTERN" value="kylemart.multicore.project.KQueue2" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -649,12 +638,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KQueue" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="kylemart.multicore.project.KQueue" />
+    <configuration name="KQueue2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kylemart.multicore.project.KQueue2" />
       <module name="multicore-project_main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="kylemart.multicore.project.*" />
+          <option name="PATTERN" value="kylemart.multicore.project.KQueue2" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -668,8 +657,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.KQueue2" />
         <item itemvalue="Application.BoundedKQueue" />
+        <item itemvalue="Application.KQueue2" />
       </list>
     </recent_temporary>
   </component>
@@ -687,7 +676,7 @@
       <workItem from="1555256051244" duration="36000" />
       <workItem from="1555256097150" duration="5676000" />
       <workItem from="1555281146278" duration="24658000" />
-      <workItem from="1555614856027" duration="19783000" />
+      <workItem from="1555614856027" duration="26954000" />
     </task>
     <task id="LOCAL-00001" summary="Updated build.gradle">
       <created>1555256308891</created>
@@ -710,24 +699,31 @@
       <option name="project" value="LOCAL" />
       <updated>1555349026003</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="KQueue is now in a working state.">
+      <created>1555636421278</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1555636421278</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59111000" />
+    <option name="totallyTimeSpent" value="66282000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
+    <frame x="0" y="23" width="1394" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14019063" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2610947" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32981133" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24452831" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4845283" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -784,49 +780,8 @@
     <MESSAGE value="Updated build.gradle" />
     <MESSAGE value="[WIP] Finished almost everything; need to implement isCommitted()" />
     <MESSAGE value="[WIP] Things are working somewhat; need to fix out-of-order bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="[WIP] Things are working somewhat; need to fix out-of-order bug" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>252</line>
-          <properties />
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>262</line>
-          <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>270</line>
-          <properties />
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>271</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>263</line>
-          <properties />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java</url>
-          <line>253</line>
-          <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="KQueue is now in a working state." />
+    <option name="LAST_COMMIT_MESSAGE" value="KQueue is now in a working state." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/jmh/java/kylemart/multicore/project/BaseTest.java" />
@@ -835,13 +790,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="826" column="33" lean-forward="true" selection-start-line="826" selection-start-column="33" selection-end-line="826" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>
@@ -878,6 +826,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Queue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="137" column="17" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/ConcurrentQueue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -885,17 +840,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kylemart/multicore/project/KQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="151">
+          <caret line="116" column="5" lean-forward="true" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#558#588#0" expanded="true" />
-            <element signature="e#4459#4460#0" expanded="true" />
-            <element signature="e#4518#4519#0" expanded="true" />
-            <element signature="e#3603#3604#0" expanded="true" />
-            <element signature="e#3664#3665#0" expanded="true" />
           </folding>
         </state>
       </provider>
