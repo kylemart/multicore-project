@@ -1,4 +1,4 @@
-package kylemart.multicore.project;
+package kylemart.multicore.project.queues;
 
 import org.jetbrains.annotations.NotNull;
 
