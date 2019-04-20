@@ -1,4 +1,4 @@
-package kylemart.multicore.project;
+package kylemart.multicore.project.queues;
 
 /**
  * An interface for the class of containers that are FIFO queues.
