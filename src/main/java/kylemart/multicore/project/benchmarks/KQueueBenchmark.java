@@ -33,7 +33,6 @@ public class KQueueBenchmark {
             frequencyMap.put(frequency, operations);
         }
 
-
         for (DistributionFrequency distribution : frequencyMap.keySet()) {
             Operation[] operations = frequencyMap.get(distribution);
 
